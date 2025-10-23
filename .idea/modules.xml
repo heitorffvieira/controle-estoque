@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ControleDeEstoque.iml" filepath="$PROJECT_DIR$/.idea/ControleDeEstoque.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ControleDeEstoque/ControleDeEstoque.iml" filepath="$PROJECT_DIR$/ControleDeEstoque/ControleDeEstoque.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/controle-estoque.iml" filepath="$PROJECT_DIR$/.idea/controle-estoque.iml" />
     </modules>
   </component>
 </project>
