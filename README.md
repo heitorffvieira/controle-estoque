@@ -1,193 +1,191 @@
-# Sistema de Controle de Estoque
+# 🏪 Sistema de Controle de Estoque
 
-Projeto simples de **controle de estoque** desenvolvido com **Java** e **Spring Boot**. O sistema permite criar, editar, listar e apagar itens das entidades principais: **Clientes**, **Produtos**, **Vendas** e **Funcionários**. Os dados são persistidos em memória usando a integração JPA do Spring Boot (H2 ou implementação em memória equivalente).
-
----
-
-## Funcionalidades
-
-* CRUD completo (Create, Read, Update, Delete) para as entidades:
-
-  * `Clientes`
-  * `Produtos`
-  * `Vendas`
-  * `Funcionários`
-* Listar todos e buscar por `id` para cada entidade
-* Armazenamento em memória via JPA (dados voláteis — perdidos ao reiniciar a aplicação)
+Este projeto é um **Sistema de Controle de Estoque** desenvolvido em **Java com Spring Boot**, permitindo gerenciar **produtos, clientes, funcionários e vendas**.  
+O sistema realiza operações completas de **CRUD** e inclui uma funcionalidade de **vendas automatizadas**, onde o produto é decrementado do estoque conforme a venda é feita — e é inativado caso o estoque chegue a zero.
 
 ---
 
-## Tecnologias
+## 🚀 Funcionalidades Principais
 
-* Java (11+ recomendado)
-* Spring Boot (Web, Data JPA)
-* H2 Database (modo em memória) — pode ser substituído por outro banco
-* Maven (ou Gradle)
-
----
-
-## Requisitos
-
-* JDK 11 ou superior
-* Maven 3.6+ (ou Gradle)
-* IDE de sua preferência (IntelliJ, VSCode, Eclipse)
+- 🧍 **Cadastro de Clientes** — criar, listar, atualizar e excluir clientes.
+- 👷 **Cadastro de Funcionários** — registrar e gerenciar funcionários.
+- 📦 **Cadastro de Produtos** — controlar nome, quantidade, preço e status (ativo/inativo).
+- 💰 **Gestão de Vendas**:
+  - Realiza vendas entre cliente, funcionário e produto.
+  - Decrementa automaticamente o estoque do produto.
+  - Inativa o produto caso o estoque chegue a **zero**.
+  - Calcula o valor total da venda com base no preço do produto.
 
 ---
 
-## Como executar
+## 🧱 Arquitetura do Projeto
 
-1. Clone o repositório:
+O projeto segue o padrão **MVC (Model–View–Controller)**:
 
-```bash
-git clone <URL_DO_REPOSITORIO>
-cd <NOME_DO_PROJETO>
+```text
+controle-estoque/
+│
+├── src/main/java/br/com/vieiradev/controleestoque/ControleDeEstoque/
+│   ├── controller/        # Endpoints REST
+│   ├── dto/               # Objetos de transferência de dados
+│   ├── model/             # Entidades JPA (Cliente, Produto, Venda, Funcionário)
+│   ├── repository/        # Interfaces JpaRepository
+│   ├── service/           # Lógica de negócio
+│   └── ControleDeEstoqueApplication.java
+│
+└── README.md
+````
+
+---
+
+## ⚙️ Tecnologias Utilizadas
+
+- **Java 17+**
+- **Spring Boot 3**
+- **Spring Data JPA**
+- **H2 Database** (ou outro configurado em `application.properties`)
+- **Lombok**
+- **Maven**
+- **Jakarta Persistence (JPA)**
+- **Spring Web**
+
+---
+
+## 🧩 Entidades Principais
+
+| Entidade | Descrição |
+|-----------|-----------|
+| **Client** | Representa o cliente que realiza uma compra. |
+| **Employee** | Representa o funcionário responsável pela venda. |
+| **Product** | Armazena informações dos produtos no estoque (nome, preço, quantidade e status ativo/inativo). |
+| **Sale** | Registra cada venda feita, associando cliente, produto e funcionário. |
+
+---
+
+## 🔄 Lógica de Vendas
+
+Ao realizar uma venda:
+
+1. O sistema busca o cliente, produto e funcionário pelo ID.
+2. Verifica se há estoque suficiente.
+3. Calcula o valor total (preço × quantidade).
+4. Reduz a quantidade do produto.
+5. Se a quantidade chegar a **zero**, o produto é inativado.
+6. A venda é registrada na base de dados.
+
+---
+
+## 📡 Endpoints Principais
+
+## Clientes (`/client`)
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET    | `client` | Lista todos os clientes |
+| GET    | `client/{id}` | Busca cliente por ID |
+| POST   | `client` | Cria um cliente |
+| PUT    | `client/{id}` | Atualiza cliente existente |
+| DELETE | `client/{id}` | Deleta cliente pelo ID |
+
+## Funcionários (`/employee`)
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET    | `employee` | Lista todos os funcionários |
+| GET    | `employee/{id}` | Busca funcionário por ID |
+| POST   | `employee` | Cria um funcionário |
+| PUT    | `employee/{id}` | Atualiza funcionário existente |
+| DELETE | `employee/{id}` | Deleta funcionário pelo ID |
+
+### Produtos (`/product`)
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| `GET` | `/product` | Lista todos os produtos |
+| `GET` | `/product/{id}` | Busca produto por ID |
+| `POST` | `/product` | Cria um novo produto |
+| `PUT` | `/product/{id}` | Atualiza produto existente |
+| `DELETE` | `/product/{id}` | Deleta produto |
+
+### Vendas (`/sale`)
+
+| Método | Endpoint	| Descrição
+|--------|----------|-----------|
+| GET	| `sale` | Lista todas as vendas
+| GET	| `sale/{id}`	| Busca venda por ID
+| POST	| `sale`	| Cadastra uma venda (entidade completa)
+| PUT	| `sale/{id}`	| Atualiza venda existente
+| DELETE	| `sale/{id}`	| Exclui venda pelo ID
+| POST	| `sale/realizar`	| Realiza uma venda e ajusta o estoque automaticamente
+
+**Exemplo JSON para cadastrar clientes:**
 ```
-
-2. Build e execução (Maven):
-
-```bash
-./mvnw clean package
-./mvnw spring-boot:run
-```
-
-ou
-
-```bash
-mvn clean package
-java -jar target/*.jar
-```
-
-3. A aplicação roda por padrão em `http://localhost:8080`.
-
-> Observação: por padrão o projeto usa armazenamento em memória (H2). Todos os dados serão perdidos quando a aplicação for interrompida.
-
----
-
-## Endpoints (exemplo REST)
-
-Os endpoints seguem um padrão REST simples. Substitua `:id` pelo identificador do recurso.
-
-### Clientes
-
-* `GET /clientes` — listar todos
-* `GET /clientes/{id}` — buscar por id
-* `POST /clientes` — criar (body: JSON)
-* `PUT /clientes/{id}` — atualizar
-* `DELETE /clientes/{id}` — deletar
-
-### Produtos
-
-* `GET /produtos`
-* `GET /produtos/{id}`
-* `POST /produtos`
-* `PUT /produtos/{id}`
-* `DELETE /produtos/{id}`
-
-### Vendas
-
-* `GET /vendas`
-* `GET /vendas/{id}`
-* `POST /vendas`
-* `PUT /vendas/{id}`
-* `DELETE /vendas/{id}`
-
-> Observação: dependendo da modelagem, a entidade `Venda` pode referenciar `Cliente` e itens de `Produto` (quantidade, preço unitário).
-
----
-
-## Exemplos de body (JSON)
-
-Cliente:
-
-```json
+json
 {
-  "name": "João Silva",
-  "cpf": "000.000.000-00",
-  "email": "joao@example.com"
+  "name": "Heitor",
+  "cpf": 000.000.000-00,
+  "email": heitor@gmail.com
+}
+````
+
+**Exemplo JSON para cadastrar funcionários:**
+```
+json
+{
+  "name": "Heitor",
+  "cpf": 000.000.000-00,
+  "email": heitor@gmail.com
+}
+````
+
+**Exemplo JSON para cadastrar produto:**
+```
+json
+{
+  "name": "Notebook",
+  "quantity": 10,
+  "price": 3500.0,
+  "active": true
+}
+````
+
+**Exemplo JSON para cadastrar vendas:**
+```
+json
+{
+  "clientId": 1,
+  "productId": 2,
+  "employeeId": 1,
+  "quantity": 3
 }
 ```
 
-Produto:
+## 💻 Como Executar o Projeto
+### Pré-requisitos:
 
-```json
-{
-  "name": "Teclado Mecânico",
-  "price": 199.90,
-  "quantity": 10
-}
-```
+Java 17+
 
-Venda (exemplo simplificado):
+Maven 3.8+
 
-```json
-{
-  "clienteId": 1,
-  "itens": [
-    { "produtoId": 2, "quantidade": 1 },
-    { "produtoId": 3, "quantidade": 2 }
-  ]
-}
-```
+IDE (IntelliJ, VS Code, Eclipse, etc.)
 
-Funcionário:
+### Passos:
 
-```json
-{
-  "name": "Maria Souza",
-  "cpf": "000.000.000-00",
-  "email": "maria@example.com"
-}
-```
+#### Clone o repositório: 
 
----
+git clone https://github.com/heitorffvieira/controle-estoque.git
 
-## Observações sobre persistência
 
-* O projeto está configurado para usar um banco em memória (H2) via Spring Data JPA — ideal para desenvolvimento e testes rápidos.
-* Para persistência permanente, altere as configurações em `application.properties`/`application.yml` para conectar a um banco externo (MySQL, PostgreSQL, etc.) e ajuste as dependências.
+#### Entre na pasta:
 
----
+cd controle-estoque
 
-## Testes
 
-* Adicione testes unitários (JUnit + Mockito) para Services e Controllers.
-* Recomenda-se testes de integração com `@SpringBootTest` e banco H2 configurado.
+#### Execute o projeto:
 
----
+mvn spring-boot:run
 
-## Estrutura sugerida do projeto
 
-```
-src/
- ├─ main/
- │   ├─ java/
- │   │  └─ com.exemplo.controleestoque/
- │   │     ├─ controller/
- │   │     ├─ service/
- │   │     ├─ model/
- │   │     └─ repository/
- │   └─ resources/
- │      └─ application.properties
- └─ test/
-```
+#### Acesse no navegador ou via Postman/Insomnia:
 
----
-
-## Como contribuir
-
-1. Fork o repositório
-2. Crie uma branch feature/x
-3. Faça commits claros e pequenos
-4. Abra um Pull Request descrevendo as mudanças
-
----
-
-## Licença
-
-Projeto licenciado como **MIT**. Sinta-se livre para usar, modificar e distribuir.
-
----
-
-## Contato
-
-Se precisar de ajuda com a configuração ou quiser melhorias, abra uma issue ou entre em contato via e-mail.
+http://localhost:8080
