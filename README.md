@@ -1,16 +1,16 @@
-# 🏪 Sistema de Controle de Estoque
+# Sistema de Controle de Estoque
 
 Este projeto é um **Sistema de Controle de Estoque** desenvolvido em **Java com Spring Boot**, permitindo gerenciar **produtos, clientes, funcionários e vendas**.  
 O sistema realiza operações completas de **CRUD** e inclui uma funcionalidade de **vendas automatizadas**, onde o produto é decrementado do estoque conforme a venda é feita — e é inativado caso o estoque chegue a zero.
 
 ---
 
-## 🚀 Funcionalidades Principais
+## Funcionalidades Principais
 
-- 🧍 **Cadastro de Clientes** — criar, listar, atualizar e excluir clientes.
-- 👷 **Cadastro de Funcionários** — registrar e gerenciar funcionários.
-- 📦 **Cadastro de Produtos** — controlar nome, quantidade, preço e status (ativo/inativo).
-- 💰 **Gestão de Vendas**:
+- **Cadastro de Clientes** — criar, listar, atualizar e excluir clientes.
+- **Cadastro de Funcionários** — registrar e gerenciar funcionários.
+- **Cadastro de Produtos** — controlar nome, quantidade, preço e status (ativo/inativo).
+- **Gestão de Vendas**:
   - Realiza vendas entre cliente, funcionário e produto.
   - Decrementa automaticamente o estoque do produto.
   - Inativa o produto caso o estoque chegue a **zero**.
@@ -18,7 +18,7 @@ O sistema realiza operações completas de **CRUD** e inclui uma funcionalidade 
 
 ---
 
-## 🧱 Arquitetura do Projeto
+## Arquitetura do Projeto
 
 O projeto segue o padrão **MVC (Model–View–Controller)**:
 
@@ -38,7 +38,7 @@ controle-estoque/
 
 ---
 
-## ⚙️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 - **Java 17+**
 - **Spring Boot 3**
@@ -51,7 +51,7 @@ controle-estoque/
 
 ---
 
-## 🧩 Entidades Principais
+## Entidades Principais
 
 | Entidade | Descrição |
 |-----------|-----------|
@@ -62,7 +62,7 @@ controle-estoque/
 
 ---
 
-## 🔄 Lógica de Vendas
+## Lógica de Vendas
 
 Ao realizar uma venda:
 
@@ -75,7 +75,7 @@ Ao realizar uma venda:
 
 ---
 
-## 📡 Endpoints Principais
+## Endpoints Principais
 
 ## Clientes (`/client`)
 
