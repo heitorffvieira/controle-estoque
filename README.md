@@ -43,7 +43,7 @@ controle-estoque/
 - **Java 17+**
 - **Spring Boot 3**
 - **Spring Data JPA**
-- **H2 Database** (ou outro configurado em `application.properties`)
+- **H2 Database**
 - **Lombok**
 - **Maven**
 - **Jakarta Persistence (JPA)**
